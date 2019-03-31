@@ -24,12 +24,24 @@ public:
 
 Node * create_list(void);
 void print_list(Node * head);
-void ret_kth_last(int k, Node * head);
+void delete_node(Node* n);
 
 int main(){
     Node * head = create_list();
-    ret_kth_last(3,head);
+    delete_node(head->next->next->next->next);
+    print_list(head);
     return 0;
+}
+
+void delete_node(Node* n){
+    if (n == NULL || n->next == NULL) {
+        cout << "Node not possible to delete" << endl;
+        return;
+    }
+    n->data = n->next->data;
+    Node * del = n->next;
+    n->next = del->next;
+    free(del);
 }
 
 Node * create_list(void){
@@ -39,25 +51,6 @@ Node * create_list(void){
     head->appendTotail(7);
     head->appendTotail(5);
     return head;
-}
-
-void ret_kth_last(int k, Node * head){
-    //First, advance k nodes from head
-    Node * current = head;
-    for (int i = 0; i < k; i++){
-        current = current->next;
-        if (current == NULL){
-            cout << "The list is smaller than k" << endl;
-            return;
-        }
-    }
-    Node * last = current;
-    Node * beg = head;
-    while (last != NULL){
-        last = last->next;
-        beg = beg->next;
-    }
-    print_list(beg);
 }
 
 void print_list(Node * head){
